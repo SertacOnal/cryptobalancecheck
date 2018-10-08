@@ -1,6 +1,6 @@
-package com.cryptobalancecheck.src.service;
+package com.cryptobalancecheck.service;
 
-import com.cryptobalancecheck.src.domain.Person;
+import com.cryptobalancecheck.domain.Person;
 
 import java.util.List;
 

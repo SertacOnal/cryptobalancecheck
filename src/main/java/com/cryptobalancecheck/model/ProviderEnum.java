@@ -1,4 +1,4 @@
-package com.cryptobalancecheck.src.model;
+package com.cryptobalancecheck.model;
 
 public enum ProviderEnum {
     POLONIEX,

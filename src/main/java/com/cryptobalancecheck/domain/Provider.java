@@ -1,28 +1,20 @@
-package com.cryptobalancecheck.src.domain;
+package com.cryptobalancecheck.domain;
 
-import com.cryptobalancecheck.src.model.ProviderEnum;
+import com.cryptobalancecheck.model.ProviderEnum;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-public class Provider {
-    @Id
-    Long id;
+public class Provider extends CryptoBaseEntity {
+    @Column(unique = true)
     @Enumerated
     ProviderEnum provider;
     Date date;
     String json;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public ProviderEnum getProvider() {
         return provider;

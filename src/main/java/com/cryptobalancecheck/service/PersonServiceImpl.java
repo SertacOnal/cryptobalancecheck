@@ -1,7 +1,7 @@
-package com.cryptobalancecheck.src.service;
+package com.cryptobalancecheck.service;
 
-import com.cryptobalancecheck.src.domain.Person;
-import com.cryptobalancecheck.src.repository.PersonRepository;
+import com.cryptobalancecheck.domain.Person;
+import com.cryptobalancecheck.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

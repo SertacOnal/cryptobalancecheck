@@ -11,6 +11,7 @@
     <name>cryptobalancecheck</name>
     <description>Crypto Balance Check</description>
 
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -55,10 +56,15 @@
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
                     <imageName>cryptobalancecheck</imageName>
-                    <baseImage>java:8</baseImage>
-                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+                    <!--<baseImage>anapsix/alpine-java:8_server-jre</baseImage>-->
+                    <dockerDirectory>Docker</dockerDirectory>
+                    <!--<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>-->
                     <!-- copy the service's jar file from target into the root directory of the image -->
+
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
@@ -66,6 +72,7 @@
                             <include>${project.build.finalName}.jar</include>
                         </resource>
                     </resources>
+
                 </configuration>
             </plugin>
             <plugin>

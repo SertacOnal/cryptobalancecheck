@@ -1,13 +1,6 @@
-package com.cryptobalancecheck.src.domain;
+package com.cryptobalancecheck.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
-public class Person {
-    @Id
-    @GeneratedValue
+public class PersonDTO {
     Long id;
     String firstName;
     String lastName;

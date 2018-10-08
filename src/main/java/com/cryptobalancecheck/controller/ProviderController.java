@@ -1,8 +1,8 @@
-package com.cryptobalancecheck.src.controller;
+package com.cryptobalancecheck.controller;
 
 
-import com.cryptobalancecheck.src.model.ProviderEnum;
-import com.cryptobalancecheck.src.service.ProviderService;
+import com.cryptobalancecheck.model.ProviderEnum;
+import com.cryptobalancecheck.service.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

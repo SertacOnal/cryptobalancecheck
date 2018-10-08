@@ -1,8 +1,8 @@
-package com.cryptobalancecheck.src.controller;
+package com.cryptobalancecheck.controller;
 
 
-import com.cryptobalancecheck.src.domain.Person;
-import com.cryptobalancecheck.src.service.PersonService;
+import com.cryptobalancecheck.domain.Person;
+import com.cryptobalancecheck.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

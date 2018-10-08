@@ -1,7 +1,7 @@
-package com.cryptobalancecheck.src.service;
+package com.cryptobalancecheck.service;
 
 
-import com.cryptobalancecheck.src.model.ProviderEnum;
+import com.cryptobalancecheck.model.ProviderEnum;
 
 public interface ProviderService {
     public String getJsonFromProvider(ProviderEnum provider);
