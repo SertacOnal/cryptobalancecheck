@@ -1,4 +1,5 @@
 /target/
+/Docker/data/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### IntelliJ IDEA ###

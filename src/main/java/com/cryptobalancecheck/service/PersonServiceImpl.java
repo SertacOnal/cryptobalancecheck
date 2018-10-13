@@ -22,6 +22,14 @@ public class PersonServiceImpl implements PersonService {
     public List<Person> listAll() {
         List<Person> persons = new ArrayList<>();
         personRepository.findAll().forEach(persons::add);
+        if (persons.size() == 0) {
+            Person p = new Person();
+            p.setFirstName("SERTAC");
+            p.setLastName(" WAS HERE");
+            persons.add(p);
+        }
+
+
         return persons;
     }
 

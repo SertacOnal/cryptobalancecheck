@@ -5,7 +5,7 @@
 
     <groupId>com.crypyobalancecheck</groupId>
     <artifactId>cryptobalancecheck</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
     <packaging>jar</packaging>
 
     <name>cryptobalancecheck</name>
@@ -56,15 +56,8 @@
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
-                    <buildArgs>
-                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-                    </buildArgs>
                     <imageName>cryptobalancecheck</imageName>
-                    <!--<baseImage>anapsix/alpine-java:8_server-jre</baseImage>-->
                     <dockerDirectory>Docker</dockerDirectory>
-                    <!--<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>-->
-                    <!-- copy the service's jar file from target into the root directory of the image -->
-
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
