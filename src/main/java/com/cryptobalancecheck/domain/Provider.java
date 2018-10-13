@@ -1,18 +1,20 @@
 package com.cryptobalancecheck.domain;
 
 import com.cryptobalancecheck.model.ProviderEnum;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import java.util.Date;
+
 
 @Entity
 public class Provider extends CryptoBaseEntity {
+
     @Column(unique = true)
     @Enumerated
     ProviderEnum provider;
-    Date date;
+    @Type(type = "text")
     String json;
 
 
@@ -22,14 +24,6 @@ public class Provider extends CryptoBaseEntity {
 
     public void setProvider(ProviderEnum provider) {
         this.provider = provider;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public String getJson() {

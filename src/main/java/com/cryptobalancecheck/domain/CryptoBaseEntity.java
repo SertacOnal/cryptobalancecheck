@@ -4,7 +4,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 @MappedSuperclass
@@ -12,8 +12,7 @@ public abstract class CryptoBaseEntity {
     @Id
     @GeneratedValue
     Long id;
-    Date createDate;
-    Date modifyDate;
+    LocalDateTime date;
     @Version
     Long version;
 
@@ -25,22 +24,13 @@ public abstract class CryptoBaseEntity {
         this.id = id;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
-
-    public Date getModifyDate() {
-        return modifyDate;
-    }
-
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
-    }
-
 
     public Long getVersion() {
         return version;

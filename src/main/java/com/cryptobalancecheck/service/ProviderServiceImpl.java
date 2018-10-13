@@ -13,9 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 
 @Service
@@ -25,6 +23,11 @@ public class ProviderServiceImpl implements ProviderService {
     private final ProviderRepository providerRepository;
     private final long minutesToLookBack = 5;
 
+    private final String BINANCE_URL = "https://api.binance.com/api/v1/ticker/24hr";
+    private final String POLONIEX_URL = "https://poloniex.com/public?command=returnTicker";
+    private final String BTCTURK_URL = "https://www.btcturk.com/api/ticker";
+
+
 
     @Autowired
     public ProviderServiceImpl(ProviderRepository providerRepository) {
@@ -33,33 +36,58 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public String getJsonFromProvider(ProviderEnum provider) {
-        String url = "https://api.binance.com/api/v1/ticker/24hr";
         try {
-            return checkDBandIfNecessaryGetFromProvider(provider.BINANCE);
+            return checkDBandIfNecessaryGetFromProvider(provider);
         } catch (Exception e) {
-            return url + " den bilgi alinamadi";
+            return provider.name() + " den bilgi alinamadi";
+        }
+    }
+
+    private String findUrl(ProviderEnum provider) {
+
+        switch (provider) {
+            case BINANCE:
+                return BINANCE_URL;
+            case POLONIEX:
+                return POLONIEX_URL;
+            case BTCTURK:
+                return BTCTURK_URL;
+            default:
+                return "";
         }
     }
 
     private String checkDBandIfNecessaryGetFromProvider(ProviderEnum provider) throws Exception {
 
-        LocalDateTime dateTime = LocalDateTime.now().minus(Duration.of(minutesToLookBack, ChronoUnit.MINUTES));
-        Date minutesAgo = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
-        Provider providerFromDB = providerRepository.getProviderByProviderAndCreateDateAfter(provider, minutesAgo);
-
+        LocalDateTime minutesAgo = LocalDateTime.now().minus(Duration.of(minutesToLookBack, ChronoUnit.MINUTES));
+        Provider providerFromDB = providerRepository.getProviderByProvider(provider);
         if (null != providerFromDB) {
-            return providerFromDB.getJson();
+            return checkDBWithinIntervalAndReturnJson(provider, minutesAgo, providerFromDB);
         } else {
-            String jsonFromUrl = sendGet("https://api.binance.com/api/v1/ticker/24hr");
-            Provider providerToDB = new Provider();
-            providerToDB.setProvider(provider);
-            providerToDB.setJson(jsonFromUrl);
-            providerRepository.save(providerToDB);
-            return jsonFromUrl;
+            return getFromProviderAndSave(provider);
         }
-//        return sendGet("https://api.binance.com/api/v1/ticker/24hr");
+    }
 
+    private String getFromProviderAndSave(ProviderEnum provider) throws Exception {
+        String jsonFromUrl = sendGet(findUrl(provider));
+        Provider providerToDB = new Provider();
+        providerToDB.setProvider(provider);
+        providerToDB.setJson(jsonFromUrl);
+        providerToDB.setDate(LocalDateTime.now());
+        providerRepository.save(providerToDB);
+        return jsonFromUrl;
+    }
 
+    private String checkDBWithinIntervalAndReturnJson(ProviderEnum provider, LocalDateTime minutesAgo, Provider providerFromDB) throws Exception {
+        if (providerFromDB.getDate().isBefore(minutesAgo)) {
+            String jsonFromUrl = sendGet(findUrl(provider));
+            providerFromDB.setJson(jsonFromUrl);
+            providerFromDB.setDate(LocalDateTime.now());
+            providerRepository.save(providerFromDB);
+            return jsonFromUrl;
+        } else {
+            return providerFromDB.getJson();
+        }
     }
 
 
@@ -68,7 +96,6 @@ public class ProviderServiceImpl implements ProviderService {
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("User-Agent", USER_AGENT);
-        int responseCode = con.getResponseCode();
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
